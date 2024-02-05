@@ -5,11 +5,12 @@ import { IAnimal } from "../models/IAnimal";
 import { getAnimals} from "../services/getData";
 import { saveToLs } from "../services/saveToLs";
 import { getListFromLs } from "../services/getFromLs";
+import { AnimalStatus } from "../components/AnimalStatus";
 
 export const Animals  = () => {
 
     let [animals,setAnimals]=useState<IAnimal[]>([]);
-    
+
     useEffect(()=>{
     let listFromLs = getListFromLs()
     
@@ -27,17 +28,19 @@ export const Animals  = () => {
             })
             saveToLs(animals);
             setAnimals(animals);
-        });   
+         
+        
+        })
+    
             
        }
-           
+      
     },[]
     );
-
+   
     
     return<>{animals.map((animal:IAnimal)=>{
         return<AnimalPresentation key={animal.id} animal={animal}/>
-    })}
-    
-     </>
+        
+    })}</>
 }

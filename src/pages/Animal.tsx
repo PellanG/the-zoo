@@ -3,21 +3,24 @@ import { IAnimal } from "../models/IAnimal"
 import { getListFromLs } from "../services/getFromLs";
 import { saveToLs } from "../services/saveToLs";
 import { useState } from "react";
+import { AnimalStatus } from "../components/AnimalStatus";
 
 
 export const Animal = () => {
+    AnimalStatus();
     let animalsFromLs = getListFromLs();
+    
 
     const [animals, setAnimals] = useState<IAnimal[]>([...animalsFromLs]);
-
+    
     const params = useParams();
-
     
     const clickedAnimal = animals.find((animal:IAnimal)=>animal.id.toString() === params.id);
      
     const feedAnimal = ()=>{
+        
         animals.map((animal)=>{
-                
+            
         if(animal.id.toString() === params.id){
             animal.isFed = true;
             animal.lastFed = new Date().toLocaleString();
@@ -26,6 +29,7 @@ export const Animal = () => {
         else{
             return;
         }
+        
     });
         
         saveToLs([...animals]);

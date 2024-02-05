@@ -16,6 +16,7 @@ export const AnimalPresentation = ({animal}:IAnimalPresentationProps) => {
         <img src={animal.imageUrl} alt="Pic of animal"/>
         </div>
         <p> {animal.shortDescription}</p>
+        <p className="animal-feeding-indicator">{animal.hungry}</p>
         </div></>
       
         

@@ -3,7 +3,15 @@ import { IAnimal } from '../models/IAnimal';
 
 
 
-export async function getData(): Promise <IAnimal[]> {
-   const response = await axios.get("https://animals.azurewebsites.net/api/animals");
-   return response.data; 
+export async function getAnimals():Promise<IAnimal[]>{
+   try{
+   const response = await axios.get<IAnimal[]>("https://animals.azurewebsites.net/api/animals");
+   
+   return response.data
+   }
+   catch(error){
+      console.log("error message");
+      return[];
+      
+   }
 }

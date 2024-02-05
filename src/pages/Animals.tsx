@@ -1,24 +1,36 @@
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 import { AnimalPresentation } from "../components/AnimalPresentation";
 import { IAnimal } from "../models/IAnimal";
-import { getData } from "../services/getData";
+import { getAnimals} from "../services/getData";
+import { saveToLs } from "../services/saveToLs";
+import { getListFromLs } from "../services/getFromLs";
 
 export const Animals  = () => {
-    const [animals,setAnimals]=useState<IAnimal[]>([]);
-    const animalsList = JSON.parse(localStorage.getItem("animals")|| "[]");
 
-    if(animals.length === 0){
-        getData().then((animals)=>{
-            localStorage.setItem("animals",JSON.stringify(animals))
+    let [animals,setAnimals]=useState<IAnimal[]>([]);
+    
+    useEffect(()=>{
+    let listFromLs = getListFromLs()
+    
+    if(listFromLs !== null){
+        setAnimals(listFromLs);
+        console.log("should update");
+        
+    }  
+    else {
+         getAnimals().then((animals)=>{
+            saveToLs(animals);
             setAnimals(animals);
-            console.log(animals);
+        });   
             
-        })
-    }
+       }
+           
+    },[]
+    );
+
     
-    
-    return<>{animals.map((animal)=>{
+    return<>{animals.map((animal:IAnimal)=>{
         return<AnimalPresentation key={animal.id} animal={animal}/>
     })}
     

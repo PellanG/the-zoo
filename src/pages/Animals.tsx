@@ -20,6 +20,11 @@ export const Animals  = () => {
     }  
     else {
          getAnimals().then((animals)=>{
+            animals.map((animal)=>{
+                if(animal.isFed===false)
+                animal.hungry="Jag är hungrig"
+                return animals
+            })
             saveToLs(animals);
             setAnimals(animals);
         });   

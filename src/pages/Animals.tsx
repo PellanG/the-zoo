@@ -1,22 +1,24 @@
 
 import { useEffect, useState } from "react";
-import { AnimalPresentation } from "../components/AnimalPresentation";
 import { IAnimal } from "../models/IAnimal";
-import { getAnimals} from "../services/getData";
+import { getAnimals} from "../services/getAnimals";
 import { saveToLs } from "../services/saveToLs";
 import { getListFromLs } from "../services/getFromLs";
-import { AnimalStatus } from "../components/AnimalStatus";
+import { useNavigate } from "react-router-dom";
+import { brokenImage } from "../models/brokenImage";
+
 
 export const Animals  = () => {
-
+    const navigate = useNavigate();
     let [animals,setAnimals]=useState<IAnimal[]>([]);
 
     useEffect(()=>{
     let listFromLs = getListFromLs()
     
+    
     if(listFromLs !== null){
         setAnimals(listFromLs);
-        console.log("should update");
+        
         
     }  
     else {
@@ -24,23 +26,34 @@ export const Animals  = () => {
             animals.map((animal)=>{
                 if(animal.isFed===false)
                 animal.hungry="Jag är hungrig"
-                return animals
+                
             })
             saveToLs(animals);
             setAnimals(animals);
          
-        
-        })
-    
-            
+        }) 
        }
       
     },[]
     );
-   
+    let currentTime = new Date().getTime();
     
     return<>{animals.map((animal:IAnimal)=>{
-        return<AnimalPresentation key={animal.id} animal={animal}/>
-        
+        if(currentTime - Date.parse(animal.lastFed) > 10800000){
+            animal.lastFed = new Date().toLocaleString();
+            animal.isFed = false;
+            animal.hungry = "Jag är hungrig!"
+        }
+        return<div key={animal.id} className="animals-container" onClick={()=>{
+            navigate("/animal/"+ animal.id);
+        }}>
+        <h2>{animal.name}</h2>
+        <div className="img-container">
+        <img src={animal.imageUrl} onError={brokenImage}alt="Pic of animal"/>
+        </div>
+        <p> {animal.shortDescription}</p>
+        <p className="animal-feeding-indicator">{animal.hungry}</p>
+        </div>
+    
     })}</>
 }

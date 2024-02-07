@@ -6,7 +6,8 @@ nav{
         list-style-type: none;
         padding: 0;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-evenly;
+        column-gap: 5px;
         li{
             display: flex;
             align-items: center;

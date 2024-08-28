@@ -1,0 +1,24 @@
+nav {
+  width: 20%;
+  ul {
+    height: 60%;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    column-gap: 5px;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
+    a {
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: black;
+    }
+    a.active {
+      color: white;
+    }
+  }
+}
